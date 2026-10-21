@@ -274,6 +274,10 @@ export class Simulation {
       }
       this.normReadback.unmap();
       return { norm, peak };
+    } catch {
+      // The map was rejected (for example, the device was lost); the buffer is not
+      // mapped in that case, and this read instance returns without data.
+      return null;
     } finally {
       this.normPending = false;
     }
@@ -290,6 +294,8 @@ export class Simulation {
       const copy = new Float32Array(this.psiReadback.getMappedRange()).slice();
       this.psiReadback.unmap();
       return copy;
+    } catch {
+      return null;
     } finally {
       this.psiPending = false;
     }
