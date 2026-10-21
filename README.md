@@ -54,16 +54,40 @@ Implementation notes:
 
 Scenes are defined in `src/presets.ts` as a potential plus an initial Gaussian packet. In the harmonic trap the packet is a coherent state (width 1/√(2ω), speed ωr), so it orbits without spreading. The tunneling barrier (V = 0.6) is higher than the packet's mean energy (about 0.55).
 
-## Running
+## Building
 
-Requires Node 22+ and a browser with WebGPU
+Requirements:
+
+- [Node.js](https://nodejs.org/) 22.12 or newer (includes npm)
+- A browser with WebGPU to run it: a recent Chrome or Edge, Safari 26+, or a recent Firefox
+
+Clone and install dependencies:
 
 ```bash
+git clone https://github.com/ylfeid/wavefront.git
+cd wavefront
 npm install
+```
+
+Start the dev server, then open the URL it prints (usually http://localhost:5173). Edits reload automatically.
+
+```bash
 npm run dev
 ```
 
-`npm run build` type-checks and builds to `dist/`.
+Make a production build. This type-checks the code and writes the site to `dist/`:
+
+```bash
+npm run build
+```
+
+Serve that build locally to check it (usually at http://localhost:4173):
+
+```bash
+npm run preview
+```
+
+`dist/` is plain static files with relative paths, so it can be uploaded to any static host, including under a subpath. Run `npm run typecheck` to type-check without building.
 
 ## Deploying
 
