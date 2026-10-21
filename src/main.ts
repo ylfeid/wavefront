@@ -72,13 +72,9 @@ class App {
     this.setTool('fire');
     this.setColorMode('probability');
     this.loadScene(scenes.find((s) => s.id === sceneId) ?? scenes[0]);
-    // Once the device is gone the app has nothing left to submit; stop the
-    // render loop instead of driving a dead device every animation frame.
-    // (The handler in init() shows the explanatory overlay.)
     this.sim.device.lost.then(() => (this.stopped = true));
     requestAnimationFrame(this.tick);
   }
-
 
   private buildSceneButtons() {
     const container = $('scenes');
@@ -115,7 +111,6 @@ class App {
     this.sim.potential.fill(0);
     this.sim.markPotentialDirty();
   }
-
 
   private bindControls() {
     for (const b of $('tools').querySelectorAll<HTMLButtonElement>('button')) {
@@ -218,7 +213,6 @@ class App {
     });
   }
 
-
   private toGrid(e: PointerEvent) {
     const rect = this.overlay.getBoundingClientRect();
     return {
@@ -295,7 +289,6 @@ class App {
     this.sim.markPotentialDirty();
   }
 
-
   private observeSize() {
     const stage = $('stage');
     const viewport = $('viewport');
@@ -319,14 +312,13 @@ class App {
     resize();
   }
 
-
   private tick = () => {
+    if (this.stopped) return;
     this.frameUpdate();
     requestAnimationFrame(this.tick);
   };
 
   private frameUpdate() {
-    if (this.stopped) return;
     const { sim } = this;
     sim.sync();
     const encoder = sim.device.createCommandEncoder();

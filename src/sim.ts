@@ -275,8 +275,7 @@ export class Simulation {
       this.normReadback.unmap();
       return { norm, peak };
     } catch {
-      // The map was rejected (for example, the device was lost); the buffer is not
-      // mapped in that case, and this read instance returns without data.
+      // Map rejected, e.g. the device was lost.
       return null;
     } finally {
       this.normPending = false;
